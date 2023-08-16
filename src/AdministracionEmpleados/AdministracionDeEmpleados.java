@@ -35,10 +35,7 @@ public class AdministracionDeEmpleados {
         return empleados.get(id);
     }
 
-    public void mostrarVentanaBusqueda() {
-        // Lógica para mostrar la ventana de búsqueda con la tabla y opciones
-        // Aquí podrías implementar la lógica para interactuar con la tabla y seleccionar empleados
-    }
+ 
 
     private double obtenerSalarioPorPuesto(String puesto) {
         switch (puesto) {
