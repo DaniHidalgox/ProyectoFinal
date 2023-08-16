@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdministraciondeServicios {
-    private List<Servicios> servicios; // Declaración de la lista de servicios
+    private List<Servicios> servicios; 
 
     public AdministraciondeServicios() {
-        servicios = new ArrayList<>(); // Inicialización de la lista de servicios en el constructor
+        servicios = new ArrayList<>(); 
     }
 
     public void agregarServicio(int codigo, String nombre, String descripcion, double precio) {
