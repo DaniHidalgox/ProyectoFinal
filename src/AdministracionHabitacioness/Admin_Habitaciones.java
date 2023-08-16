@@ -4,6 +4,7 @@
  */
 package AdministracionHabitacioness;
 
+import Habitaciones.Habitacion;
 import java.util.ArrayList;
 import java.util.List;
 
