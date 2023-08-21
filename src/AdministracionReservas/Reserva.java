@@ -1,3 +1,6 @@
+package AdministracionReservas;
+
+import AdministracionReservas.GestionReservas;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,8 +36,7 @@ public class Reserva implements GestionReservas {
     @Override
     public void reservar(int numeroReserva, String numeroCedulaCliente, String tipoHabitacion,
                          String fechaEntrada, String fechaSalida) {
-        // Lógica para realizar la reserva
-        // ...
+      
         ReservaInfo reserva = new ReservaInfo(numeroReserva, numeroCedulaCliente,
                                               tipoHabitacion, fechaEntrada, fechaSalida);
         reservas.put(numeroReserva, reserva);
@@ -42,29 +44,62 @@ public class Reserva implements GestionReservas {
 
     @Override
     public void cancelarReserva(int numeroReserva) {
-        // Lógica para cancelar la reserva
-        // ...
+       
         reservas.remove(numeroReserva);
     }
 
     @Override
     public void buscarReserva(String filtro) {
-        // Lógica para buscar la reserva
-        // ...
+        List<ReservaInfo> resultados = new ArrayList<>();
+
+        for (ReservaInfo reserva : reservas.values()) {
+            if (cumpleCriterio(reserva, filtro)) {
+                resultados.add(reserva);
+            }
+        }
+
+        if (resultados.isEmpty()) {
+            System.out.println("No se encontraron reservas que coincidan con el filtro.");
+        } else {
+            System.out.println("Reservas encontradas:");
+            for (ReservaInfo reserva : resultados) {
+                System.out.println("Número de Reserva: " + reserva.numeroReserva);
+                System.out.println("Cliente: " + reserva.numeroCedulaCliente);
+              
+            }
+        }
     }
+
+    private boolean cumpleCriterio(ReservaInfo reserva, String filtro) {
+    
+    return reserva.numeroCedulaCliente.equals(filtro) ||
+           reserva.tipoHabitacion.equals(filtro) ||
+           reserva.estado.equals(filtro);
+}
+
 
     @Override
     public void activarReserva(int numeroReserva) {
-        // Lógica para activar la reserva
-        // ...
+       
         ReservaInfo reserva = reservas.get(numeroReserva);
         if (reserva != null && reserva.estado.equals("Pendiente")) {
             reserva.estado = "En ejecución";
-            // Cambiar estado de la habitación a no disponible
-            // ...
+            
+            cambiarEstadoHabitacion(reserva.tipoHabitacion);
         }
     }
-    
-    // Otros métodos auxiliares si es necesario
-    // ...
+
+  private void cambiarEstadoHabitacion(String tipoHabitacion) {
+   
+    Map<String, Boolean> estadosHabitaciones = new HashMap<>();
+    estadosHabitaciones.put("Individual", false); 
+    estadosHabitaciones.put("Doble", false);
+    estadosHabitaciones.put("Suite", false);
+
+  
+    if (estadosHabitaciones.containsKey(tipoHabitacion)) {
+        estadosHabitaciones.put(tipoHabitacion, true); 
+    }
 }
+}
+
