@@ -1,47 +1,70 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package AdministracionReservas;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import AdministraciondClientes.Clientes;
-import Habitaciones.Habitacion;
-import java.util.Date;
+public class Reserva implements GestionReservas {
+    private Map<Integer, ReservaInfo> reservas;
 
-/**
- *
- * @author jeanc
- */
-public class Reserva {
-   
-    static int contadorReserva = 1;
-    int numeroReserva;
-    Clientes cliente;
-    Habitacion habitacion;
-    Date fechaEntrada;
-    Date fechaSalida;
-    String estado;
-    int duracionEstadia;
-    double subtotal;
-    double impuestos;
-    double total;
-
-    public Reserva(Clientes cliente, Habitacion habitacion, Date fechaEntrada, Date fechaSalida) {
-        this.numeroReserva = contadorReserva++;
-        this.cliente = cliente;
-        this.habitacion = habitacion;
-        this.fechaEntrada = fechaEntrada;
-        this.fechaSalida = fechaSalida;
-        this.estado = "Pendiente";
+    public Reserva() {
+        this.reservas = new HashMap<>();
     }
 
-    public void activar() {
-        if (estado.equals("Pendiente")) {
-            estado = "En ejecución";
-            System.out.println("Reserva activada exitosamente.");
-        } else {
-            System.out.println("La reserva no puede ser activada en este estado.");
+    private class ReservaInfo {
+        // Atributos de la reserva
+        int numeroReserva;
+        String numeroCedulaCliente;
+        String tipoHabitacion;
+        String fechaEntrada;
+        String fechaSalida;
+        String estado;
+
+        ReservaInfo(int numeroReserva, String numeroCedulaCliente, String tipoHabitacion,
+                    String fechaEntrada, String fechaSalida) {
+            this.numeroReserva = numeroReserva;
+            this.numeroCedulaCliente = numeroCedulaCliente;
+            this.tipoHabitacion = tipoHabitacion;
+            this.fechaEntrada = fechaEntrada;
+            this.fechaSalida = fechaSalida;
+            this.estado = "Pendiente";
         }
     }
-}
+
+    @Override
+    public void reservar(int numeroReserva, String numeroCedulaCliente, String tipoHabitacion,
+                         String fechaEntrada, String fechaSalida) {
+        // Lógica para realizar la reserva
+        // ...
+        ReservaInfo reserva = new ReservaInfo(numeroReserva, numeroCedulaCliente,
+                                              tipoHabitacion, fechaEntrada, fechaSalida);
+        reservas.put(numeroReserva, reserva);
+    }
+
+    @Override
+    public void cancelarReserva(int numeroReserva) {
+        // Lógica para cancelar la reserva
+        // ...
+        reservas.remove(numeroReserva);
+    }
+
+    @Override
+    public void buscarReserva(String filtro) {
+        // Lógica para buscar la reserva
+        // ...
+    }
+
+    @Override
+    public void activarReserva(int numeroReserva) {
+        // Lógica para activar la reserva
+        // ...
+        ReservaInfo reserva = reservas.get(numeroReserva);
+        if (reserva != null && reserva.estado.equals("Pendiente")) {
+            reserva.estado = "En ejecución";
+            // Cambiar estado de la habitación a no disponible
+            // ...
+        }
+    }
     
+    // Otros métodos auxiliares si es necesario
+    // ...
+}
