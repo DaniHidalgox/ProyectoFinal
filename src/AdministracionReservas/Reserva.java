@@ -1,6 +1,5 @@
 package AdministracionReservas;
 
-import AdministracionReservas.GestionReservas;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +13,7 @@ public class Reserva implements GestionReservas {
     }
 
     private class ReservaInfo {
-        // Atributos de la reserva
+        
         int numeroReserva;
         String numeroCedulaCliente;
         String tipoHabitacion;
@@ -36,7 +35,6 @@ public class Reserva implements GestionReservas {
     @Override
     public void reservar(int numeroReserva, String numeroCedulaCliente, String tipoHabitacion,
                          String fechaEntrada, String fechaSalida) {
-      
         ReservaInfo reserva = new ReservaInfo(numeroReserva, numeroCedulaCliente,
                                               tipoHabitacion, fechaEntrada, fechaSalida);
         reservas.put(numeroReserva, reserva);
@@ -44,7 +42,6 @@ public class Reserva implements GestionReservas {
 
     @Override
     public void cancelarReserva(int numeroReserva) {
-       
         reservas.remove(numeroReserva);
     }
 
@@ -65,41 +62,66 @@ public class Reserva implements GestionReservas {
             for (ReservaInfo reserva : resultados) {
                 System.out.println("Número de Reserva: " + reserva.numeroReserva);
                 System.out.println("Cliente: " + reserva.numeroCedulaCliente);
-              
             }
         }
     }
 
     private boolean cumpleCriterio(ReservaInfo reserva, String filtro) {
-    
-    return reserva.numeroCedulaCliente.equals(filtro) ||
-           reserva.tipoHabitacion.equals(filtro) ||
-           reserva.estado.equals(filtro);
-}
-
+        return reserva.numeroCedulaCliente.equals(filtro) ||
+               reserva.tipoHabitacion.equals(filtro) ||
+               reserva.estado.equals(filtro);
+    }
 
     @Override
     public void activarReserva(int numeroReserva) {
-       
         ReservaInfo reserva = reservas.get(numeroReserva);
         if (reserva != null && reserva.estado.equals("Pendiente")) {
             reserva.estado = "En ejecución";
-            
             cambiarEstadoHabitacion(reserva.tipoHabitacion);
         }
     }
 
-  private void cambiarEstadoHabitacion(String tipoHabitacion) {
+    
+        private void cambiarEstadoHabitacion(String tipoHabitacion) {
    
     Map<String, Boolean> estadosHabitaciones = new HashMap<>();
-    estadosHabitaciones.put("Individual", false); 
+    estadosHabitaciones.put("Individual", false);
     estadosHabitaciones.put("Doble", false);
     estadosHabitaciones.put("Suite", false);
 
   
     if (estadosHabitaciones.containsKey(tipoHabitacion)) {
-        estadosHabitaciones.put(tipoHabitacion, true); 
+        estadosHabitaciones.put(tipoHabitacion, true);
+    }
+
+    }
+
+    public void finalizarReserva(int numeroReserva) {
+        ReservaInfo reserva = reservas.get(numeroReserva);
+        if (reserva != null && reserva.estado.equals("En ejecución")) {
+            reserva.estado = "Finalizada";
+            cambiarEstadoHabitacionDisponible(reserva.tipoHabitacion);
+        }
+    }
+
+
+    private void cambiarEstadoHabitacionDisponible(String tipoHabitacion) {
+        
+        Map<String, Boolean> estadosHabitaciones = new HashMap<>();
+        estadosHabitaciones.put("Individual", true); 
+        estadosHabitaciones.put("Doble", true);
+        estadosHabitaciones.put("Suite", true);
+
+        
+        if (estadosHabitaciones.containsKey(tipoHabitacion)) {
+            estadosHabitaciones.put(tipoHabitacion, true); 
+        }
+    }
+   
+    public void cancelarReservas(int numeroReserva) {
+        ReservaInfo reserva = reservas.get(numeroReserva);
+        if (reserva != null && reserva.estado.equals("Pendiente")) {
+            reserva.estado = "Cancelada";
+        }
     }
 }
-}
-
