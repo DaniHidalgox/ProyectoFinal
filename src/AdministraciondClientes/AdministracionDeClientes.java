@@ -1,5 +1,6 @@
 package AdministraciondClientes;
 
+import Entity.Clientes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +11,8 @@ public class AdministracionDeClientes {
         clientes = new ArrayList<>();
     }
 
-    public void agregarCliente(int IdCliente, String Nombre, String FechaNacimiento, String NumeroTelefono, String Correo, int edadCliente) {
-        Clientes nuevoCliente = new Clientes(IdCliente, Nombre, FechaNacimiento, NumeroTelefono, Correo, edadCliente);
+    public void agregarCliente(int IdCliente, String Nombre, String FechaNacimiento, String NumeroTelefono, String Correo) {
+        Clientes nuevoCliente = new Clientes(IdCliente, Nombre, FechaNacimiento, NumeroTelefono, Correo);
         clientes.add(nuevoCliente);
     }
 
@@ -38,5 +39,19 @@ public class AdministracionDeClientes {
         if (cliente != null) {
             clientes.remove(cliente);
         }
+    }
+
+    public List<Clientes> buscarClientes(String filtro) {
+        List<Clientes> clientesEncontrados = new ArrayList<>();
+        for (Clientes cliente : clientes) {
+            if (cliente.getNombre().toLowerCase().contains(filtro.toLowerCase())) {
+                clientesEncontrados.add(cliente);
+            }
+        }
+        return clientesEncontrados;
+    }
+
+    public List<Clientes> getClientes() {
+        return new ArrayList<>(clientes);
     }
 }

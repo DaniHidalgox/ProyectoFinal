@@ -1,6 +1,6 @@
-package AdministracionEmpleados.ViewEmpleado;
+package Interfaces;
 
-import AdministracionEmpleados.Empleado;
+import Entity.Empleado;
 import java.util.List;
 
 public interface EmpleadoView {

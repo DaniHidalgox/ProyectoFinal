@@ -8,6 +8,9 @@ package AdministracionReservas;
  *
  * @author Daniel Hidalgo
  */
-public class ReservaInvalidaException {
-    
-}
+class ReservaInvalidaException extends Exception {
+        public ReservaInvalidaException(String message) {
+            super(message);
+        }
+}    
+

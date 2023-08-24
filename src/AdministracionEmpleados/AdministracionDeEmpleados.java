@@ -1,10 +1,11 @@
 package AdministracionEmpleados;
 
-import AdministracionEmpleados.Empleado.Empleados;
+import Entity.Empleado.Empleados;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AdministracionDeEmpleados {
+
     private Map<Integer, Empleados> empleados;
 
     public AdministracionDeEmpleados() {
@@ -35,8 +36,6 @@ public class AdministracionDeEmpleados {
         return empleados.get(id);
     }
 
- 
-
     private double obtenerSalarioPorPuesto(String puesto) {
         switch (puesto) {
             case "Recepcionista":
@@ -52,5 +51,9 @@ public class AdministracionDeEmpleados {
             default:
                 return 0;
         }
+    }
+
+    Map<Integer, Empleados> obtenerEmpleados() {
+        return empleados;
     }
 }

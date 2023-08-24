@@ -1,8 +1,9 @@
-package AdministracionEmpleados;
+package Entity;
 
 public class Empleado {
 
     public static class Empleados {
+
         private int id;
         private String nombre;
         private String telefono;

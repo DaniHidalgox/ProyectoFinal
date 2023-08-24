@@ -4,7 +4,8 @@
  */
 package AdministracionHabitacioness;
 
-import Habitaciones.Habitacion;
+import Entity.Habitacion;
+import Interfaces.AdminHabitaciones;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,17 +13,32 @@ import java.util.List;
  *
  * @author Daniel Hidalgo
  */
-public class Admin_Habitaciones {
-   private List<Habitacion> Habitaciones;
+public class Admin_Habitaciones implements AdminHabitaciones {
+
+    private List<Habitacion> Habitaciones;
+
+    @Override
+    public List<Habitacion> getHabitaciones() {
+        return Habitaciones;
+    }
+
+    public Admin_Habitaciones() {
+        this.Habitaciones = new ArrayList<>();
+    }
 
     public Admin_Habitaciones(List<Habitacion> Habitaciones) {
-        Habitaciones = new ArrayList<>();
+        this.Habitaciones = new ArrayList<>(Habitaciones);
     }
-   public void agregarHabitacion(int numero, String tipo, double precio) {
-    Habitacion nuevaHabitacion = new Habitacion(numero, tipo, precio);
-    Habitaciones.add(nuevaHabitacion);
-}
-  public Habitacion buscarHabitacion(int numero) {
+
+    @Override
+    public void agregarHabitacion(int numero, String tipo, double precio) {
+        Habitacion nuevaHabitacion = new Habitacion(numero, tipo, precio);
+        System.out.println(nuevaHabitacion);
+        Habitaciones.add(nuevaHabitacion);
+    }
+
+    @Override
+    public Habitacion buscarHabitacion(int numero) {
         for (Habitacion habitacion : Habitaciones) {
             if (habitacion.getNumero() == numero) {
                 return habitacion;
@@ -30,13 +46,17 @@ public class Admin_Habitaciones {
         }
         return null;
     }
-  public void actualizarTipoHabitacion(int numero, String nuevoTipo) {
+
+    @Override
+    public void actualizarTipoHabitacion(int numero, String nuevoTipo) {
         Habitacion habitacion = buscarHabitacion(numero);
         if (habitacion != null) {
             habitacion.setTipo(nuevoTipo);
         }
     }
-   public void eliminarHabitacion(int numero) {
+
+    @Override
+    public void eliminarHabitacion(int numero) {
         Habitacion habitacion = buscarHabitacion(numero);
         if (habitacion != null) {
             if (!habitacion.isOcupada()) {
@@ -45,11 +65,5 @@ public class Admin_Habitaciones {
                 throw new RuntimeException("No se puede eliminar una habitación ocupada");
             }
         }
-   }
+    }
 }
-   
-    
-   
-        
-
-

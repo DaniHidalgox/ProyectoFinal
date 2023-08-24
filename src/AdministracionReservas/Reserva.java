@@ -1,11 +1,13 @@
 package AdministracionReservas;
 
+import Interfaces.GestionReservas;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Reserva implements GestionReservas {
+
     private Map<Integer, ReservaInfo> reservas;
 
     public Reserva() {
@@ -13,7 +15,7 @@ public class Reserva implements GestionReservas {
     }
 
     private class ReservaInfo {
-        
+
         int numeroReserva;
         String numeroCedulaCliente;
         String tipoHabitacion;
@@ -21,23 +23,33 @@ public class Reserva implements GestionReservas {
         String fechaSalida;
         String estado;
 
+        //Construct
         ReservaInfo(int numeroReserva, String numeroCedulaCliente, String tipoHabitacion,
-                    String fechaEntrada, String fechaSalida) {
+                String fechaEntrada, String fechaSalida) {
             this.numeroReserva = numeroReserva;
             this.numeroCedulaCliente = numeroCedulaCliente;
             this.tipoHabitacion = tipoHabitacion;
             this.fechaEntrada = fechaEntrada;
             this.fechaSalida = fechaSalida;
-            this.estado = "Pendiente";
+            this.estado = "Pendiente";//Default
         }
     }
 
     @Override
     public void reservar(int numeroReserva, String numeroCedulaCliente, String tipoHabitacion,
-                         String fechaEntrada, String fechaSalida) {
-        ReservaInfo reserva = new ReservaInfo(numeroReserva, numeroCedulaCliente,
-                                              tipoHabitacion, fechaEntrada, fechaSalida);
-        reservas.put(numeroReserva, reserva);
+            String fechaEntrada, String fechaSalida) {
+        try {
+            if (numeroReserva <= 0 || numeroCedulaCliente.isEmpty() || tipoHabitacion.isEmpty()
+                    || fechaEntrada.isEmpty() || fechaSalida.isEmpty()) {
+                throw new ReservaInvalidaException("Datos de reserva incompletos o inválidos");
+            }
+
+            ReservaInfo reserva = new ReservaInfo(numeroReserva, numeroCedulaCliente,
+                    tipoHabitacion, fechaEntrada, fechaSalida);
+            reservas.put(numeroReserva, reserva);
+        } catch (ReservaInvalidaException e) {
+            System.out.println("Error al realizar la reserva: " + e.getMessage());
+        }
     }
 
     @Override
@@ -67,9 +79,9 @@ public class Reserva implements GestionReservas {
     }
 
     private boolean cumpleCriterio(ReservaInfo reserva, String filtro) {
-        return reserva.numeroCedulaCliente.equals(filtro) ||
-               reserva.tipoHabitacion.equals(filtro) ||
-               reserva.estado.equals(filtro);
+        return reserva.numeroCedulaCliente.equals(filtro)
+                || reserva.tipoHabitacion.equals(filtro)
+                || reserva.estado.equals(filtro);
     }
 
     @Override
@@ -81,18 +93,16 @@ public class Reserva implements GestionReservas {
         }
     }
 
-    
-        private void cambiarEstadoHabitacion(String tipoHabitacion) {
-   
-    Map<String, Boolean> estadosHabitaciones = new HashMap<>();
-    estadosHabitaciones.put("Individual", false);
-    estadosHabitaciones.put("Doble", false);
-    estadosHabitaciones.put("Suite", false);
+    private void cambiarEstadoHabitacion(String tipoHabitacion) {
 
-  
-    if (estadosHabitaciones.containsKey(tipoHabitacion)) {
-        estadosHabitaciones.put(tipoHabitacion, true);
-    }
+        Map<String, Boolean> estadosHabitaciones = new HashMap<>();
+        estadosHabitaciones.put("Individual", false);
+        estadosHabitaciones.put("Doble", false);
+        estadosHabitaciones.put("Suite", false);
+
+        if (estadosHabitaciones.containsKey(tipoHabitacion)) {
+            estadosHabitaciones.put(tipoHabitacion, true);
+        }
 
     }
 
@@ -104,20 +114,18 @@ public class Reserva implements GestionReservas {
         }
     }
 
-
     private void cambiarEstadoHabitacionDisponible(String tipoHabitacion) {
-        
+
         Map<String, Boolean> estadosHabitaciones = new HashMap<>();
-        estadosHabitaciones.put("Individual", true); 
+        estadosHabitaciones.put("Individual", true);
         estadosHabitaciones.put("Doble", true);
         estadosHabitaciones.put("Suite", true);
 
-        
         if (estadosHabitaciones.containsKey(tipoHabitacion)) {
-            estadosHabitaciones.put(tipoHabitacion, true); 
+            estadosHabitaciones.put(tipoHabitacion, true);
         }
     }
-   
+
     public void cancelarReservas(int numeroReserva) {
         ReservaInfo reserva = reservas.get(numeroReserva);
         if (reserva != null && reserva.estado.equals("Pendiente")) {
