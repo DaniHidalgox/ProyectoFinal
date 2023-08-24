@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author jprod
+ * @author Daniel
  */
 public class FrmEmpleados extends javax.swing.JInternalFrame {
 
@@ -361,10 +361,10 @@ public class FrmEmpleados extends javax.swing.JInternalFrame {
             // Llama al controlador para agregar o actualizar el empleado.
             controller.agregarEmpleado(id, nombre, telefono, puesto);
 
-            // Luego, actualiza la tabla con los nuevos datos.
+           
             actualizarTablaEmpleados();
         }
-        // Limpiar los campos después de guardar.
+        
         Limpiar();
     }//GEN-LAST:event_btnSaveActionPerformed
     private void actualizarTablaEmpleados() {

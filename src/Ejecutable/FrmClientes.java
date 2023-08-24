@@ -360,7 +360,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
     txrTelefono.setText("");
     txtCorreo1.setText("");
     
-    // También puedes limpiar la selección en la tabla si es necesario
+   
     tblClientes.clearSelection();
     }//GEN-LAST:event_btnClearActionPerformed
 
@@ -430,19 +430,30 @@ private void clearInputFields() {
     }
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
      String filtro = txtFiltro.getText();
-    if (!filtro.isEmpty()) {
-       
-        List<Clientes> clientesEncontrados = controller.buscarClientes(filtro);
+if (!filtro.isEmpty()) {
+    List<Clientes> clientesEncontrados = controller.buscarClientes(filtro);
 
-        DefaultTableModel model = (DefaultTableModel) tblClientes.getModel();
-        model.setRowCount(0); 
+    DefaultTableModel model = (DefaultTableModel) tblClientes.getModel();
+    model.setRowCount(0); 
 
-        for (Clientes cliente : clientesEncontrados) {
-            model.addRow(new Object[]{cliente.getIdCliente(), cliente.getNombre(), cliente.getNumeroTelefono(), cliente.getCorreo()});
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Ingrese un filtro de búsqueda.");
+    for (Clientes cliente : clientesEncontrados) {
+        model.addRow(new Object[]{cliente.getIdCliente(), cliente.getNombre(), cliente.getNumeroTelefono(), cliente.getCorreo()});
     }
+
+    if (!clientesEncontrados.isEmpty()) {
+        
+        Clientes primerCliente = clientesEncontrados.get(0);
+         txtId.setText(String.valueOf(primerCliente.getIdCliente()));
+        txtNombre.setText(primerCliente.getNombre());
+        txrTelefono.setText(primerCliente.getNumeroTelefono());
+        txtCorreo1.setText(primerCliente.getCorreo());
+    } else {
+        JOptionPane.showMessageDialog(this, "No se encontraron clientes.");
+    }
+} else {
+    JOptionPane.showMessageDialog(this, "Ingrese un filtro de búsqueda.");
+}
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked

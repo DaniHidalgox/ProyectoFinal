@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author jprod
+ * @author Daniel
  */
 public class FrmAdminHabitacion extends javax.swing.JInternalFrame {
 

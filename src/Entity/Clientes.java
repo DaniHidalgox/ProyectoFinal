@@ -75,5 +75,8 @@ public class Clientes {
     public void setEdadCliente(int edadCliente) {
         this.edadCliente = edadCliente;
     }
+
+    
+
     
 }
